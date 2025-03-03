@@ -1,0 +1,12 @@
+table {
+    width: 80%;
+    border-collapse: collapse;
+  }
+  th {
+    background-color: pink;
+    padding: 10px;
+  }
+  td {
+    padding: 8px;
+    border: 0px solid #ddd;
+  }

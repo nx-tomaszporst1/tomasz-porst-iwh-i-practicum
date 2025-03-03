@@ -22,49 +22,60 @@ const PRIVATE_APP_ACCESS = '';
 
 // * Code for Route 3 goes here
 
-/** 
-* * This is sample code to give you a reference for how you should structure your calls. 
 
-* * App.get sample
-app.get('/contacts', async (req, res) => {
-    const contacts = 'https://api.hubspot.com/crm/v3/objects/contacts';
+app.get('/', async (req, res) => {
+    //const contacts = 'https://api.hubspot.com/crm/v3/objects/pets';
+    const pets = 'https://api.hubapi.com/crm/v3/objects/pets?properties=name,animal,age';
     const headers = {
         Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
         'Content-Type': 'application/json'
     }
     try {
-        const resp = await axios.get(contacts, { headers });
+        const resp = await axios.get(pets, { headers });
+        console.error(resp.data.results);
         const data = resp.data.results;
-        res.render('contacts', { title: 'Contacts | HubSpot APIs', data });      
+        res.render('homepage', { title: 'Custom Object Table', data });      
     } catch (error) {
         console.error(error);
     }
 });
 
-* * App.post sample
-app.post('/update', async (req, res) => {
-    const update = {
+app.get('/update-cobj', async (req, res) => {
+
+    res.render('updates', { title: 'Update Custom Object Form | Integrating With HubSpot I Practicum.'});      
+
+    }
+)
+
+
+
+
+ app.post('/update-cobj', async (req, res) => {
+    const create = {
         properties: {
-            "favorite_book": req.body.newVal
+           "name": req.body.name,
+            "animal": req.body.animal,
+            "age": req.body.age 
         }
     }
 
-    const email = req.query.email;
-    const updateContact = `https://api.hubapi.com/crm/v3/objects/contacts/${email}?idProperty=email`;
+    console.log(create);
+ 
+    const createPet = `https://api.hubapi.com/crm/v3/objects/pets`;
     const headers = {
         Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
         'Content-Type': 'application/json'
     };
 
     try { 
-        await axios.patch(updateContact, update, { headers } );
-        res.redirect('back');
+        await axios.post(createPet, create, { headers } );
+        res.redirect('/');
     } catch(err) {
         console.error(err);
     }
 
-});
-*/
+}); 
+
 
 
 // * Localhost
